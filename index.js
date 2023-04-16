@@ -18,7 +18,8 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
-		} else {
+		}
+		else {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
@@ -30,7 +31,9 @@ client.once(Events.ClientReady, () => {
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
-
+	if (interaction.commandName === 'ping') {
+		await interaction.reply({ content: 'Secret Pong!', ephemeral: true });
+	}
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
@@ -60,10 +63,13 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	try {
 		await command.execute(interaction);
-	} catch (error) {
+	}
+	catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
 });
+
+
 
 client.login(token);
