@@ -1,0 +1,6 @@
+py-cord[voice]
+PyNaCl
+aiodns
+brotlipy
+cchardet
+python-dotenv
