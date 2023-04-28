@@ -29,11 +29,9 @@ client.once(Events.ClientReady, () => {
 	console.log('Ready!');
 });
 
-client.on(Events.InteractionCreate, async interaction => {
+client.on(Events.InteractionCreate, async (interaction) => {
 	if (!interaction.isChatInputCommand()) return;
-	if (interaction.commandName === 'ping') {
-		await interaction.reply({ content: 'Secret Pong!', ephemeral: true });
-	}
+
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
@@ -62,14 +60,17 @@ client.on(Events.InteractionCreate, async interaction => {
 	setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
 	try {
+		// Acknowledge the interaction with a deferred reply
+		await interaction.deferReply();
+
+		// Execute the command
 		await command.execute(interaction);
 	}
 	catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
 });
-
 
 
 client.login(token);

@@ -1,14 +1,14 @@
-FROM node:14
+FROM node:19
 
 WORKDIR /app
 
 COPY package*.json .
-RUN npm ci
+RUN npm  install 
+
 
 COPY . .
-
-RUN npm run build
+RUN node deploy-command.js
 
 EXPOSE 5000
 
-CMD ["serve", "-s", "build", "-l", "5000"]
+CMD ["node", "index.js"]

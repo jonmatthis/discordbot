@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('Chat with a golem'),
 	async execute(interaction) {
 		const response = await getResponseFromBackend('hello how are you');
-		await interaction.reply(response);
+		await interaction.editReply(response);
 	},
 };
 

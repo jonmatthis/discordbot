@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 async function getResponseFromBackend(message) {
-	const response = await fetch('http://localhost:8000/api/chat', {
+	const response = await fetch('http://backend:8213/api/chat', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -10,7 +10,12 @@ async function getResponseFromBackend(message) {
 	});
 	const data = await response.json();
 	console.log('Response from backend:', response);
-	return data.response;
+
+	// Return the formatted response object
+	return {
+		content: data.response,
+		ephemeral: true,
+	};
 }
 
 module.exports = { getResponseFromBackend };
